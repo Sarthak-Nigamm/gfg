@@ -1,45 +1,35 @@
 class Solution {
-    public static void merge(int arr[], int l, int mid, int r){
-        int temp[] = new int[r - l + 1];
-        int i =l;
-        int j = mid+1;
-        int k = 0;
-        while(i<=mid && j<=r ){
-            if(arr[i]>arr[j]){
-                temp[k] = arr[j];
-                k++;
-                j++;
-            }else if(arr[i]<=arr[j]){
-                temp[k] = arr[i];
-                k++;
-                i++;
-            }
-            
-        }
-        //left remaining 
-        while(i<=mid){
-            temp[k] = arr[i];
-            k++;
-            i++;
-        }
-        //right remaining
-        while(j<=r){
-            temp[k] = arr[j];
-            k++;
-            j++;
-        }
-        
-        //copy to original
-        for(int c =0; c<k; c++){
-            arr[c+l]  = temp[c];
-        }
+    public void merge(int arr[], int si, int ei,int mid) {
+      int temp[] = new int[ei-si+1];
+      int i =si,j=mid+1,k=0;
+      while(i<=mid && j<=ei){
+          if(arr[i]<=arr[j]){
+              temp[k] = arr[i];
+              i++;
+          }else{
+              temp[k] = arr[j];
+              j++;
+          }
+          k++;
+      }
+      while(i<=mid){
+          temp[k++] = arr[i++];
+      }
+       while(j<=ei){
+          temp[k++] = arr[j++];
+      }
+      //copy
+      for(int c = si; c<=ei;c++){
+          arr[c] = temp[c-si];
+      }
     }
-    public void mergeSort(int arr[], int l, int r) {
-        if(l<r){
-            int mid = l-((l-r)/2);
-            mergeSort(arr,l,mid);
-            mergeSort(arr,mid+1,r);
-            merge(arr,l,mid,r);
-        }
+    public void mergeSort(int arr[], int si, int ei) {
+       if(si>=ei){
+           return;
+       }
+        int mid = si+(ei-si)/2;
+        mergeSort(arr,si,mid);
+        mergeSort(arr,mid+1,ei);
+        merge(arr,si,ei,mid);
     }
 }
